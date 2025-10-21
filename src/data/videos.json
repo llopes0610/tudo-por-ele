@@ -1,0 +1,23 @@
+[
+  {
+    "id": "dQw4w9WgXcQ",
+    "title": "A Reforma Protestante e o Evangelho Verdadeiro",
+    "description": "Entenda o impacto da Reforma e a centralidade do evangelho.",
+    "thumbnail": "https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg",
+    "category": "História"
+  },
+  {
+    "id": "hY7m5jjJ9mM",
+    "title": "Sola Fide — A Fé Somente",
+    "description": "A doutrina que transformou o mundo e continua viva hoje.",
+    "thumbnail": "https://img.youtube.com/vi/hY7m5jjJ9mM/hqdefault.jpg",
+    "category": "Doutrina"
+  },
+  {
+    "id": "M7lc1UVf-VE",
+    "title": "Sola Scriptura — Somente as Escrituras",
+    "description": "Por que a Bíblia é a única regra de fé e prática.",
+    "thumbnail": "https://img.youtube.com/vi/M7lc1UVf-VE/hqdefault.jpg",
+    "category": "Sola Scriptura"
+  }
+]
