@@ -55,6 +55,14 @@ export default function Header() {
           >
             Propósito
           </Link>
+           <Link
+            href="/produtos"
+            className={`hover:text-yellow-400 transition-colors ${
+              pathname === "/produtos" ? "text-yellow-400" : ""
+            }`}
+          >
+            Produtos
+          </Link>
         </nav>
       </div>
     </header>
