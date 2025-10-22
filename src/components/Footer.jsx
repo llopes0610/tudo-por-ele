@@ -1,11 +1,21 @@
-// components/Footer.jsx
-export default function Footer(){
+"use client";
+
+import { motion } from "framer-motion";
+
+export default function Footer() {
   return (
-    <footer className="bg-[#0f1724] text-white text-center py-8 mt-8">
-      <div className="max-w-6xl mx-auto px-4">
-        <p>&copy; {new Date().getFullYear()} Tudo Por Ele - Teologia Reformada</p>
-        <p className="italic text-[#8aa2b8] mt-2">"Porque dele, e por ele, e para ele são todas as coisas" - Romanos 11:36</p>
-      </div>
-    </footer>
-  )
+    <motion.footer
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      transition={{ duration: 1, ease: "easeOut" }}
+      className="bg-[#0f1724] text-gray-300 text-center py-6 border-t border-gray-700"
+    >
+      <p className="text-sm italic text-gray-400 mb-2">
+        “Porque d’Ele, por Ele e para Ele são todas as coisas.” — Romanos 11:36
+      </p>
+      <p className="text-gray-500 text-sm hover:text-gray-300 transition-colors">
+        &copy; 2025 Tudo Por Ele — Teologia Reformada
+      </p>
+    </motion.footer>
+  );
 }

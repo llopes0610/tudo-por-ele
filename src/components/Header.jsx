@@ -1,34 +1,62 @@
-// components/Header.jsx
-'use client'
-import { useState } from 'react'
-import Link from 'next/link'
+"use client";
 
-export default function Header(){
-  const [open, setOpen] = useState(false)
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+export default function Header() {
+  const pathname = usePathname();
+
   return (
-    <header className="bg-[#0f1724] text-white sticky top-0 z-50 shadow">
-      <div className="max-w-6xl mx-auto flex items-center justify-between px-4 py-4">
-        <Link href="/" className="font-bold text-xl tracking-wide">TUDO POR ELE</Link>
-        <nav className="hidden md:flex gap-6 items-center">
-          <Link href="/">Início</Link>
-          <Link href="/estudos">Estudos</Link>
-          <Link href="/videos">Vídeos</Link>
-          <Link href="/proposito">Propósito</Link>
+    <header className="bg-[#0f1724] text-gray-100 py-4 shadow-md">
+      <div className="container mx-auto flex items-center justify-between px-6">
+        {/* 🔰 Logo do Brasão */}
+        <Link href="/" className="flex items-center space-x-3">
+          <img
+            src="/logo-brasao.png"
+            alt="Logo Tudo Por Ele"
+            className="h-12 w-auto drop-shadow-[0_2px_6px_rgba(255,215,0,0.6)]"
+          />
+          <span className="hidden md:block text-lg font-serif font-semibold text-gray-100 tracking-wide">
+            TUDO POR ELE
+          </span>
+        </Link>
+
+        {/* 🔗 Navegação */}
+        <nav className="space-x-6 text-sm font-medium">
+          <Link
+            href="/"
+            className={`hover:text-yellow-400 transition-colors ${
+              pathname === "/" ? "text-yellow-400" : ""
+            }`}
+          >
+            Início
+          </Link>
+          <Link
+            href="/estudos"
+            className={`hover:text-yellow-400 transition-colors ${
+              pathname === "/estudos" ? "text-yellow-400" : ""
+            }`}
+          >
+            Estudos
+          </Link>
+          <Link
+            href="/videos"
+            className={`hover:text-yellow-400 transition-colors ${
+              pathname === "/videos" ? "text-yellow-400" : ""
+            }`}
+          >
+            Vídeos
+          </Link>
+          <Link
+            href="/proposito"
+            className={`hover:text-yellow-400 transition-colors ${
+              pathname === "/proposito" ? "text-yellow-400" : ""
+            }`}
+          >
+            Propósito
+          </Link>
         </nav>
-
-        <button className="md:hidden" onClick={()=>setOpen(!open)} aria-label="Abrir menu">
-          <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
-        </button>
       </div>
-
-      {open && (
-        <div className="md:hidden bg-[#0f1724]/95 px-4 pb-4">
-          <Link href="/" className="block py-2">Início</Link>
-          <Link href="/estudos" className="block py-2">Estudos</Link>
-          <Link href="/videos" className="block py-2">Vídeos</Link>
-          <Link href="/proposito" className="block py-2">Propósito</Link>
-        </div>
-      )}
     </header>
-  )
+  );
 }

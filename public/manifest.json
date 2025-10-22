@@ -1,0 +1,9 @@
+{
+  "name": "Tudo Por Ele",
+  "short_name": "TudoPorEle",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f1724",
+  "theme_color": "#0f1724",
+  "description": "Teologia reformada centrada em Cristo."
+}

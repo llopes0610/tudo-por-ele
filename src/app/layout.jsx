@@ -1,21 +1,18 @@
-// app/layout.jsx
-import './globals.css'
-import Header from '../components/Header'
-import Footer from '../components/Footer'
+import "./globals.css";
+import ClientLayout from "./ClientLayout";
 
 export const metadata = {
-  title: 'Tudo Por Ele',
-  description: 'Teologia reformada - estudos e vídeos',
-}
+  title: "Tudo Por Ele",
+  description:
+    "Estudo, fé e razão à luz das Escrituras — Teologia Reformada para os nossos dias.",
+};
 
-export default function RootLayout({ children }){
+export default function RootLayout({ children }) {
   return (
     <html lang="pt-BR">
-      <body className="min-h-screen flex flex-col bg-gray-50 text-gray-800">
-        <Header />
-        <main className="flex-1 max-w-6xl mx-auto px-4 py-8">{children}</main>
-        <Footer />
+      <body className="min-h-screen flex flex-col bg-[var(--brand-secondary)] text-[#0f1724]">
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
-  )
+  );
 }
