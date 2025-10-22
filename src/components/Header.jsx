@@ -32,6 +32,14 @@ export default function Header() {
             Início
           </Link>
           <Link
+            href="/proposito"
+            className={`hover:text-yellow-400 transition-colors ${
+              pathname === "/proposito" ? "text-yellow-400" : ""
+            }`}
+          >
+            Propósito
+          </Link>
+          <Link
             href="/estudos"
             className={`hover:text-yellow-400 transition-colors ${
               pathname === "/estudos" ? "text-yellow-400" : ""
@@ -47,14 +55,7 @@ export default function Header() {
           >
             Vídeos
           </Link>
-          <Link
-            href="/proposito"
-            className={`hover:text-yellow-400 transition-colors ${
-              pathname === "/proposito" ? "text-yellow-400" : ""
-            }`}
-          >
-            Propósito
-          </Link>
+          
            <Link
             href="/produtos"
             className={`hover:text-yellow-400 transition-colors ${
