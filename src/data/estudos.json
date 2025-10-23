@@ -1,58 +1,26 @@
 [
   {
-    "slug": "doutrina-da-eleicao",
-    "title": "A Doutrina da Eleição",
-    "date": "2025-10-20",
-    "excerpt": "Uma análise profunda sobre a soberania de Deus na salvação...",
-    "category": "Doutrina",
-    "content": "<p>A doutrina da eleição revela a soberania absoluta de Deus na salvação. Antes da fundação do mundo, Ele escolheu em Cristo aqueles que seriam redimidos, não com base em mérito humano, mas segundo o conselho da Sua vontade.</p><p>Essa verdade não deve gerar orgulho, mas humildade e adoração, pois toda a glória pertence ao Senhor. A eleição é a expressão máxima da graça irresistível de Deus.</p>"
-  },
-  {
-    "slug": "sola-scriptura",
-    "title": "Sola Scriptura",
-    "date": "2025-10-15",
-    "excerpt": "Compreendendo a autoridade suprema das Escrituras...",
-    "category": "Sola Scriptura",
-    "content": "<p><strong>Sola Scriptura</strong> afirma que somente as Escrituras são a autoridade final e infalível em matéria de fé e prática. Nenhuma tradição ou revelação posterior pode se igualar à Palavra inspirada de Deus.</p><p>Essa doutrina foi o alicerce da Reforma Protestante e continua sendo essencial para a igreja de Cristo hoje.</p>"
-  },
-  {
-    "slug": "graca-irresistivel",
-    "title": "A Graça Irresistível de Deus",
-    "date": "2025-10-10",
-    "excerpt": "Como a graça opera eficazmente no coração do homem...",
-    "category": "Doutrina",
-    "content": "<p>A graça irresistível é a obra eficaz do Espírito Santo, que transforma o coração do pecador e o conduz à fé. Quando Deus chama, o homem não pode resistir, pois Ele opera a regeneração interior que o leva a crer em Cristo.</p><p>Essa graça não anula a vontade humana, mas a liberta do domínio do pecado para que o homem responda ao chamado divino.</p>"
-  },
-  {
-    "slug": "nascer-de-novo",
+    "slug": "o-que-e-nascer-de-novo",
     "title": "O Que é Nascer de Novo?",
-    "date": "2025-10-25",
-    "excerpt": "O novo nascimento é uma obra soberana do Espírito que transforma o coração e concede fé em Cristo.",
-    "category": "Evangelho",
-    "content": "<p><strong>“Em verdade, em verdade te digo: quem não nascer de novo não pode ver o reino de Deus.”</strong> — João 3:3</p><p>Nascer de novo é uma obra soberana do Espírito Santo que transforma o coração morto em pecado em um coração vivo para Deus. D. A. Carson ensina que o novo nascimento não é o resultado de esforço humano, mas um ato divino que dá vida espiritual a quem estava morto (Efésios 2:1–5).</p><p>A regeneração é o início da salvação — o Espírito concede vida, e por isso o homem pode crer. A fé é fruto dessa nova vida, e não a sua causa. O verdadeiro cristão é aquele que foi feito nova criatura, com novos desejos e amor por Cristo.</p>"
+    "date": "2025-10-22",
+    "excerpt": "O novo nascimento é um milagre espiritual realizado por Deus — o ato pelo qual o pecador morto em seus pecados é vivificado pelo Espírito Santo.",
+    "category": "Soteriologia",
+    "content": "<p>O novo nascimento é o ato soberano de Deus pelo qual o pecador, morto em seus delitos e pecados (Efésios 2:1), é vivificado espiritualmente pelo Espírito Santo, recebendo um novo coração e uma nova natureza...</p><p>John MacArthur explica que o novo nascimento é um milagre interno e invisível, no qual Deus cria vida espiritual onde antes havia morte. A.W. Pink reforça: 'A regeneração é a comunicação de uma nova vida à alma, não o aperfeiçoamento da natureza caída, mas a criação de algo inteiramente novo.'</p><p>Paulo declara em Tito 3:5: 'Não por obras de justiça praticadas por nós, mas segundo Sua misericórdia, Ele nos salvou mediante o lavar regenerador e renovador do Espírito Santo.' Essa transformação é total — o homem não apenas muda de comportamento, mas se torna uma nova criatura (2 Coríntios 5:17).</p><p>O novo nascimento é a base de toda verdadeira fé. Sem ele, não há arrependimento genuíno, amor por Deus nem desejo de santidade. Como dizia Spurgeon: 'O mesmo poder que ressuscitou Cristo dentre os mortos é o que desperta o pecador para a vida espiritual.'</p>"
   },
-  {
-    "slug": "reforma-protestante",
-    "title": "O Que é a Reforma Protestante?",
-    "date": "2025-10-24",
-    "excerpt": "Um movimento histórico e espiritual que restaurou o Evangelho e a autoridade da Palavra de Deus.",
-    "category": "História da Igreja",
-    "content": "<p>Em 31 de outubro de 1517, Martinho Lutero afixou suas 95 teses em Wittenberg, iniciando o que conhecemos como Reforma Protestante. Foi um movimento de retorno à Bíblia e à pureza do Evangelho.</p><p>Os reformadores proclamaram cinco verdades fundamentais: <strong>Sola Scriptura</strong>, <strong>Sola Gratia</strong>, <strong>Sola Fide</strong>, <strong>Solus Christus</strong> e <strong>Soli Deo Gloria</strong>. Essas verdades reorientaram a fé cristã em torno da suficiência de Cristo e da autoridade da Escritura.</p><p>D. A. Carson destaca que a Reforma não foi uma rebelião, mas uma renovação espiritual conduzida por Deus. Seu legado nos chama a perseverar em igrejas centradas na Palavra e na graça soberana.</p>"
-  },
-  {
-    "slug": "como-saber-se-sou-salvo",
-    "title": "Como Saber se Sou Salvo?",
-    "date": "2025-10-23",
-    "excerpt": "A certeza da salvação não vem das emoções, mas da fé em Cristo e do testemunho do Espírito Santo.",
-    "category": "Vida Cristã",
-    "content": "<p>A teologia reformada ensina que a salvação é obra completa de Deus, do início ao fim. O verdadeiro crente tem sua segurança firmada em Cristo, não em sentimentos momentâneos ou méritos próprios.</p><p>D. A. Carson explica que a verdadeira fé produz frutos de obediência e amor. O Espírito Santo testifica ao coração do crente que ele pertence a Deus (<strong>Romanos 8:16</strong>).</p><p>A certeza da salvação não está em olhar para si mesmo, mas para Cristo. O cristão persevera não por força própria, mas porque foi regenerado e selado pelo Espírito até o fim.</p>"
-  },
+ {
+  "slug": "como-saber-se-sou-salvo",
+  "title": "Como Saber se Sou Salvo?",
+  "date": "2025-10-22",
+  "excerpt": "A segurança da salvação é uma verdade preciosa revelada pela Palavra de Deus — uma certeza baseada na obra de Cristo, não nas emoções humanas.",
+  "category": "Soteriologia",
+  "content": "<p>Uma das perguntas mais profundas e necessárias da vida cristã é: 'Como posso saber se sou realmente salvo?'. As Escrituras nos ensinam que a salvação é um ato completo de Deus, assegurado pela obra de Cristo e confirmado pelo testemunho do Espírito Santo (Romanos 8:16).</p><p>Jesus declarou: 'Pelos seus frutos os conhecereis' (Mateus 7:16). O verdadeiro salvo demonstra uma vida transformada. Como dizia Paul Washer: 'A evidência da salvação não está em uma oração feita, mas em uma vida mudada.'</p><p>O cristão salvo confia na suficiência de Cristo, não em sua própria justiça. John Owen afirmava: 'A fé que salva é aquela que olha para Cristo, e não para si mesma.' A certeza vem do fato de que Deus não pode falhar em completar a obra que começou (Filipenses 1:6).</p><div class=\"my-8 aspect-video\"><iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/dBcwPKkJdOA?start=2\" title=\"Como Saber se Sou Salvo?\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe></div><p>Portanto, a segurança da salvação não repousa em nossas obras ou emoções, mas na promessa infalível do Deus soberano.</p>"
+},
   {
     "slug": "como-saber-se-minha-igreja-e-biblica",
     "title": "Como Saber se Minha Igreja é Bíblica?",
     "date": "2025-10-22",
-    "excerpt": "Critérios reformados para discernir se uma igreja é fiel às Escrituras.",
-    "category": "Igreja",
-    "content": "<p>Uma igreja bíblica é aquela que exalta a Cristo e se submete integralmente à autoridade das Escrituras. D. A. Carson afirma que a fidelidade de uma igreja não se mede por emoções, mas pela centralidade da Palavra e da sã doutrina.</p><p>Os reformadores identificaram três marcas essenciais de uma igreja verdadeira: <strong>a pregação fiel do Evangelho</strong>, <strong>a correta administração dos sacramentos</strong> e <strong>a prática da disciplina bíblica</strong>.</p><p>Se a Palavra é distorcida, os sacramentos são banalizados ou o pecado é tolerado, a igreja se desvia de sua vocação. Uma igreja bíblica é aquela que glorifica a Deus em tudo — <em>“Soli Deo Gloria”</em>.</p>"
+    "excerpt": "A marca de uma igreja verdadeira é a fidelidade à Palavra de Deus, e não o tamanho, a emoção ou o número de seguidores.",
+    "category": "Eclesiologia",
+    "content": "<p>Em uma era de relativismo e pragmatismo religioso, discernir se uma igreja é verdadeiramente bíblica tornou-se essencial. A igreja fiel é aquela que se submete à autoridade das Escrituras e exalta a Cristo acima de tudo.</p><p>John MacArthur afirma: 'Uma igreja que não prega a Palavra não é uma igreja, é um clube religioso.' A pregação expositiva das Escrituras é o coração de uma igreja saudável (2 Timóteo 4:2).</p><p>Além disso, uma igreja bíblica pratica corretamente os sacramentos, exerce a disciplina e promove a santidade do corpo de Cristo. Como ensina A.W. Tozer: 'O cristianismo moderno aceitou a religião sem arrependimento e o perdão sem regeneração.'</p><p>Portanto, a fidelidade doutrinária e a centralidade de Cristo são as marcas visíveis de uma igreja verdadeiramente bíblica.</p>"
   }
 ]
