@@ -5,10 +5,75 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import estudos from "@/data/estudos.json";
 
+export async function generateMetadata({ params }) {
+  const estudo = estudos.find((e) => e.slug === params.slug);
+
+  if (!estudo) {
+    return {
+      title: "Estudo não encontrado | Tudo Por Ele",
+      description:
+        "Explore estudos reformados sobre a fé, as Escrituras e a teologia bíblica.",
+    };
+  }
+
+  const title = `${estudo.title} | Tudo Por Ele`;
+  const description =
+    estudo.summary ||
+    "Estudo teológico reformado — uma análise bíblica sólida e centrada em Cristo.";
+
+  // Gera imagem automática
+  let image = "/logo-brasao.png";
+  if (estudo.video && estudo.video.includes("youtube.com/watch?v=")) {
+    const match = estudo.video.match(/v=([^&]+)/);
+    if (match && match[1]) {
+      image = `https://img.youtube.com/vi/${match[1]}/maxresdefault.jpg`;
+    }
+  } else if (estudo.image) {
+    image = estudo.image;
+  }
+
+  const url = `https://tudoporele.com.br/estudos/${estudo.slug}`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url,
+      siteName: "Tudo Por Ele",
+      images: [
+        {
+          url: image,
+          width: 1200,
+          height: 630,
+          alt: estudo.title,
+        },
+      ],
+      type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [image],
+    },
+  };
+}
+
 export default function EstudoPage({ params }) {
   const estudo = estudos.find((e) => e.slug === params.slug);
 
   if (!estudo) return notFound();
+
+  // Gera automaticamente a imagem da capa do vídeo (se houver)
+  let imageUrl = "/logo-brasao.png";
+  if (estudo.video && estudo.video.includes("youtube.com/watch?v=")) {
+    const match = estudo.video.match(/v=([^&]+)/);
+    if (match && match[1]) {
+      imageUrl = `https://img.youtube.com/vi/${match[1]}/maxresdefault.jpg`;
+    }
+  }
 
   return (
     <main className="bg-[#f8fafc] min-h-screen">
@@ -16,9 +81,12 @@ export default function EstudoPage({ params }) {
       <section className="relative w-full h-[55vh] md:h-[50vh] flex items-center justify-center text-center overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('/hero.jpg')" }}
+          style={{
+            backgroundImage: `url('${imageUrl}')`,
+            filter: "brightness(0.6)",
+          }}
         ></div>
-        <div className="absolute inset-0 bg-[#0f1724]/60" />
+        <div className="absolute inset-0 bg-[#0f1724]/50" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0f1724]/60 to-[#0f1724]/90" />
 
         <motion.div
@@ -45,7 +113,6 @@ export default function EstudoPage({ params }) {
         transition={{ duration: 0.8 }}
         className="max-w-4xl mx-auto bg-[#fffdf5] rounded-2xl shadow-lg p-8 mt-16 mb-12 leading-relaxed border border-[#f5e6b3]"
       >
-        {/* Corpo principal */}
         <div
           className="prose prose-lg max-w-none text-gray-800 prose-headings:text-[#0f1724] space-y-4"
           dangerouslySetInnerHTML={{ __html: estudo.content }}
@@ -53,8 +120,8 @@ export default function EstudoPage({ params }) {
 
         {/* Vídeo embutido */}
         {estudo.video && (
-          <div className="mt-10 text-center">
-            <p className="font-serif italic mb-3 text-[#0f1724]">
+          <div className="mt-8 text-center">
+            <p className="font-serif italic mb-2 text-[#0f1724]">
               🎥 Assista ao vídeo completo:
             </p>
             <iframe
@@ -68,18 +135,18 @@ export default function EstudoPage({ params }) {
           </div>
         )}
 
-        {/* Créditos e fontes */}
+        {/* Créditos (agora com HTML) */}
         {estudo.creditos && (
-  <div className="mt-8 bg-[#fff8e1] text-[#4a3f2c] border border-[#e0c98d] rounded-xl p-5 max-w-3xl mx-auto shadow-inner">
-    <p className="font-serif text-sm leading-relaxed mb-2">
-      🪶 <strong>Créditos e fontes:</strong>
-    </p>
-    <div
-      className="prose prose-sm max-w-none text-[#4a3f2c]"
-      dangerouslySetInnerHTML={{ __html: estudo.creditos }}
-    />
-  </div>
-)}
+          <div className="mt-8 bg-[#fff8e1] text-[#4a3f2c] border border-[#e0c98d] rounded-xl p-5 max-w-3xl mx-auto shadow-inner">
+            <p className="font-serif text-sm leading-relaxed mb-2">
+              🪶 <strong>Créditos e fontes:</strong>
+            </p>
+            <div
+              className="prose prose-sm max-w-none text-[#4a3f2c]"
+              dangerouslySetInnerHTML={{ __html: estudo.creditos }}
+            />
+          </div>
+        )}
 
         {/* Botão de voltar */}
         <div className="text-center mt-10">
