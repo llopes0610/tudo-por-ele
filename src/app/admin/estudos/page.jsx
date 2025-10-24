@@ -1,304 +1,196 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { motion } from "framer-motion";
-
-const toSlug = (title) =>
-  (title || "")
-    .toLowerCase()
-    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^\w\s-]/g, "")
-    .trim()
-    .replace(/\s+/g, "-");
+import { useState, useEffect } from "react";
 
 export default function AdminEstudosPage() {
   const [estudos, setEstudos] = useState([]);
-  const [status, setStatus] = useState("");
-  const [mode, setMode] = useState("create"); // "create" | "edit"
-  const [originalSlug, setOriginalSlug] = useState(null);
-
   const [form, setForm] = useState({
     title: "",
     category: "",
-    excerpt: "",
+    resumo: "",
     content: "",
+    creditos: "",
     video: "",
   });
 
-  const preview = useMemo(() => {
-    const slug = toSlug(form.title);
-    return {
-      ...form,
-      slug,
-      date: new Date().toISOString().split("T")[0],
-    };
-  }, [form]);
-
-  // Carrega lista
-  const loadEstudos = async () => {
-    const res = await fetch("/api/estudos", { cache: "no-store" });
-    const data = await res.json();
-    setEstudos(data || []);
-  };
-
+  // 🔁 Carrega lista de estudos
   useEffect(() => {
-    loadEstudos();
+    fetch("/api/estudos")
+      .then((r) => r.json())
+      .then((data) => setEstudos(data))
+      .catch(() => setEstudos([]));
   }, []);
 
-  const resetForm = () => {
-    setForm({ title: "", category: "", excerpt: "", content: "", video: "" });
-    setMode("create");
-    setOriginalSlug(null);
-    setStatus("");
-  };
+  // 🧾 Atualiza campos
+  const handleChange = (e) =>
+    setForm({ ...form, [e.target.name]: e.target.value });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setForm((p) => ({ ...p, [name]: value }));
-  };
+  // 💾 Publica estudo
+  const handleSubmit = async () => {
+    const res = await fetch("/api/addEstudo", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(form),
+    });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setStatus("⏳ Salvando...");
-
-    try {
-      const endpoint =
-        mode === "create" ? "/api/addEstudo" : "/api/updateEstudo";
-      const body =
-        mode === "create"
-          ? preview
-          : { originalSlug, ...preview }; // inclui o slug antigo para localizar
-
-      const res = await fetch(endpoint, {
-        method: mode === "create" ? "POST" : "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
+    if (res.ok) {
+      alert("✅ Estudo publicado com sucesso!");
+      setForm({
+        title: "",
+        category: "",
+        resumo: "",
+        content: "",
+        creditos: "",
+        video: "",
       });
-
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error(err?.error || "Falha ao salvar");
-      }
-
-      await loadEstudos();
-      setStatus("✅ Estudo salvo com sucesso!");
-      resetForm();
-    } catch (err) {
-      console.error(err);
-      setStatus("❌ " + err.message);
+      const updated = await fetch("/api/estudos").then((r) => r.json());
+      setEstudos(updated);
+    } else {
+      alert("❌ Erro ao publicar o estudo.");
     }
   };
 
-  const startEdit = (item) => {
-    setMode("edit");
-    setOriginalSlug(item.slug);
-    setForm({
-      title: item.title,
-      category: item.category || "",
-      excerpt: item.excerpt || "",
-      content: item.content || "",
-      video: item.video || "",
+  // 🗑️ Excluir estudo
+  const handleDelete = async (slug) => {
+    if (!confirm("Deseja realmente excluir este estudo?")) return;
+
+    const res = await fetch("/api/deleteEstudo", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ slug }),
     });
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
 
-  const deleteItem = async (slug) => {
-    if (!confirm("Tem certeza que deseja excluir este estudo?")) return;
-    setStatus("⏳ Excluindo...");
-
-    try {
-      const res = await fetch("/api/deleteEstudo", {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ slug }),
-      });
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error(err?.error || "Falha ao excluir");
-      }
-      await loadEstudos();
-      setStatus("✅ Estudo excluído.");
-      if (mode === "edit" && originalSlug === slug) resetForm();
-    } catch (err) {
-      console.error(err);
-      setStatus("❌ " + err.message);
+    if (res.ok) {
+      const updated = await fetch("/api/estudos").then((r) => r.json());
+      setEstudos(updated);
+      alert("🗑️ Estudo removido!");
+    } else {
+      alert("❌ Erro ao excluir o estudo.");
     }
   };
 
   return (
-    <main className="min-h-screen bg-[#f8fafc] py-10 px-6">
-      <h1 className="text-3xl font-serif text-center mb-10 text-[#0f1724]">
-        📖 Painel Administrativo — Estudos
+    <main className="min-h-screen bg-[#e8ecf2] py-10 px-6">
+      <h1 className="text-3xl font-serif text-[#0f1724] mb-8 text-center">
+        ✍️ Painel — Novo Estudo
       </h1>
 
-      {/* FORM + PREVIEW */}
-      <div className="grid md:grid-cols-2 gap-10 max-w-6xl mx-auto">
-        {/* === FORMULÁRIO === */}
-        <form
-          onSubmit={handleSubmit}
-          className="bg-white p-8 rounded-2xl shadow-md border border-gray-200 space-y-5"
-        >
-          <div className="flex items-center justify-between">
-            <h2 className="text-xl font-semibold text-[#0f1724]">
-              {mode === "create" ? "➕ Novo Estudo" : "✏️ Editar Estudo"}
-            </h2>
-            {mode === "edit" && (
-              <button
-                type="button"
-                onClick={resetForm}
-                className="text-sm text-gray-600 hover:underline"
-              >
-                cancelar edição
-              </button>
-            )}
-          </div>
+      {/* === FORMULÁRIO === */}
+      <section className="max-w-4xl mx-auto bg-white/90 shadow-lg rounded-xl p-6 space-y-4 border border-gray-200">
+        <input
+          name="title"
+          value={form.title}
+          onChange={handleChange}
+          placeholder="Título do estudo"
+          className="w-full border px-4 py-2 rounded"
+        />
+        <input
+          name="category"
+          value={form.category}
+          onChange={handleChange}
+          placeholder="Categoria (ex: Teologia Sistemática, Soteriologia...)"
+          className="w-full border px-4 py-2 rounded"
+        />
+        <textarea
+          name="resumo"
+          value={form.resumo}
+          onChange={handleChange}
+          placeholder="Resumo curto"
+          className="w-full border px-4 py-2 rounded"
+        />
+        <textarea
+          name="content"
+          value={form.content}
+          onChange={handleChange}
+          placeholder="Conteúdo principal (HTML permitido)"
+          className="w-full border px-4 py-2 rounded h-40"
+        />
+        <textarea
+          name="creditos"
+          value={form.creditos}
+          onChange={handleChange}
+          placeholder="Créditos (Ex: <b>Caio Modesto</b> / Curadoria: <i>Lucas Lopes</i>)"
+          className="w-full border px-4 py-2 rounded h-20"
+        />
+        <input
+          name="video"
+          value={form.video}
+          onChange={handleChange}
+          placeholder="Link do vídeo (opcional)"
+          className="w-full border px-4 py-2 rounded"
+        />
 
-          <input
-            name="title"
-            value={form.title}
-            onChange={handleChange}
-            placeholder="Título do Estudo"
-            className="w-full border px-4 py-2 rounded focus:ring-2 focus:ring-amber-400"
-            required
-          />
-
-          <input
-            name="category"
-            value={form.category}
-            onChange={handleChange}
-            placeholder="Categoria (ex: Soteriologia, Doutrina...)"
-            className="w-full border px-4 py-2 rounded focus:ring-2 focus:ring-amber-400"
-          />
-
-          <textarea
-            name="excerpt"
-            value={form.excerpt}
-            onChange={handleChange}
-            placeholder="Resumo do estudo"
-            rows={2}
-            className="w-full border px-4 py-2 rounded focus:ring-2 focus:ring-amber-400"
-          />
-
-          <textarea
-            name="content"
-            value={form.content}
-            onChange={handleChange}
-            placeholder="Conteúdo em HTML (pode incluir <p>, <strong>, <em>...)"
-            rows={10}
-            className="w-full border px-4 py-2 rounded focus:ring-2 focus:ring-amber-400 font-mono"
-            required
-          />
-
-          <input
-            name="video"
-            value={form.video}
-            onChange={handleChange}
-            placeholder="Link opcional do YouTube (watch?v=...)"
-            className="w-full border px-4 py-2 rounded focus:ring-2 focus:ring-amber-400"
-          />
-
-          {/* slug calculado */}
-          <p className="text-xs text-gray-500">
-            <strong>Slug:</strong> {preview.slug || "(gerado automaticamente)"}
-          </p>
-
+        <div className="flex justify-end gap-3">
           <button
-            type="submit"
-            className="w-full bg-[#0f1724] text-white font-medium px-6 py-3 rounded-lg hover:bg-[#1e293b] transition-colors duration-300"
+            onClick={handleSubmit}
+            className="bg-[#0f1724] text-white px-6 py-2 rounded hover:bg-[#1e293b] transition"
           >
-            {mode === "create" ? "Publicar Estudo" : "Salvar Alterações"}
+            Publicar
           </button>
+        </div>
+      </section>
 
-          {status && (
-            <p className="text-center mt-3 text-sm text-gray-600">{status}</p>
-          )}
-        </form>
-
-        {/* === PREVIEW === */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="bg-[#fffdf5] border border-[#f5e6b3] rounded-2xl p-8 shadow-md"
-        >
-          <h2 className="text-xl font-serif font-semibold text-[#0f1724] mb-3">
-            Prévia
+      {/* === PRÉVIA AO VIVO === */}
+      {form.title && (
+        <section className="max-w-4xl mx-auto bg-[#fffaf0] border border-[#e5d8a3] rounded-2xl mt-10 shadow-inner p-8 text-[#3e3425] font-serif leading-relaxed">
+          <h2 className="text-2xl font-bold text-[#2e2618] mb-2">
+            {form.title}
           </h2>
-          <p className="text-2xl font-semibold text-[#0f1724] mb-2">
-            {preview.title || "Título do Estudo"}
+          <p className="text-sm italic text-[#8b7d4a] mb-4">
+            {form.category} — {new Date().toISOString().split("T")[0]}
           </p>
-          <p className="text-sm text-gray-500 mb-4">
-            {preview.date || "AAAA-MM-DD"} — {preview.category || "Categoria"}
-          </p>
-          <p className="text-gray-700 mb-4 italic">
-            {preview.excerpt || "Resumo do conteúdo aparecerá aqui..."}
-          </p>
+          <p className="mb-4">{form.resumo}</p>
           <div
-            className="prose prose-sm max-w-none text-gray-800"
-            dangerouslySetInnerHTML={{
-              __html:
-                preview.content ||
-                "<p>O conteúdo em HTML será renderizado aqui...</p>",
-            }}
+            className="prose max-w-none mb-4"
+            dangerouslySetInnerHTML={{ __html: form.content }}
           />
-
-          {!!preview.video && (
-            <div className="mt-4">
-              <iframe
-                width="100%"
-                height="220"
-                src={preview.video.replace("watch?v=", "embed/")}
-                title="Video preview"
-                className="rounded-lg shadow-md"
-              />
-            </div>
+          {form.creditos && (
+            <div
+              className="mt-6 border-l-4 border-amber-500 bg-amber-100/70 p-3 rounded"
+              dangerouslySetInnerHTML={{
+                __html: `<strong>📜 Créditos:</strong> ${form.creditos}`,
+              }}
+            />
           )}
-        </motion.div>
-      </div>
+        </section>
+      )}
 
-      {/* LISTA DE ESTUDOS */}
-      <section className="max-w-6xl mx-auto mt-12">
-        <h3 className="text-xl font-semibold text-[#0f1724] mb-4">
-          Estudos cadastrados
-        </h3>
-
+      {/* === LISTA DE ESTUDOS === */}
+      <section className="max-w-4xl mx-auto mt-12">
+        <h2 className="text-xl font-serif text-[#0f1724] mb-4">
+          📚 Estudos Publicados
+        </h2>
         {estudos.length === 0 ? (
-          <p className="text-gray-500">Nenhum estudo cadastrado ainda.</p>
+          <p className="text-gray-600 italic">
+            Nenhum estudo publicado ainda.
+          </p>
         ) : (
-          <div className="grid md:grid-cols-2 gap-4">
-            {estudos.map((item) => (
+          <div className="space-y-3">
+            {estudos.map((e) => (
               <div
-                key={item.slug}
-                className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm flex flex-col"
+                key={e.slug}
+                className="bg-[#fff9e6] border border-[#e5d8a3] p-4 rounded-lg flex justify-between items-center"
               >
-                <div className="flex-1">
-                  <p className="font-semibold text-[#0f1724]">{item.title}</p>
-                  <p className="text-xs text-gray-500">
-                    {item.date} • {item.category || "Sem categoria"}
-                  </p>
-                  <p className="text-sm text-gray-600 line-clamp-2 mt-2">
-                    {item.excerpt}
+                <div>
+                  <h3 className="font-bold text-[#2e2618]">{e.title}</h3>
+                  <p className="text-sm italic text-[#7b6d4d]">
+                    {e.category} — {e.date}
                   </p>
                 </div>
-                <div className="mt-3 flex gap-2">
-                  <button
-                    onClick={() => startEdit(item)}
-                    className="px-3 py-2 text-sm rounded bg-amber-500 text-white hover:bg-amber-600"
+                <div className="flex gap-2">
+                  <a
+                    href={`/estudos/${e.slug}`}
+                    target="_blank"
+                    className="bg-amber-500 text-white px-4 py-1 rounded hover:bg-amber-600 transition"
                   >
-                    Editar
-                  </button>
+                    Visualizar
+                  </a>
                   <button
-                    onClick={() => deleteItem(item.slug)}
-                    className="px-3 py-2 text-sm rounded bg-red-600 text-white hover:bg-red-700"
+                    onClick={() => handleDelete(e.slug)}
+                    className="bg-red-600 text-white px-4 py-1 rounded hover:bg-red-700 transition"
                   >
                     Excluir
                   </button>
-                  <a
-                    href={`/estudos/${item.slug}`}
-                    target="_blank"
-                    className="ml-auto px-3 py-2 text-sm rounded bg-gray-200 hover:bg-gray-300"
-                  >
-                    Ver no site ↗
-                  </a>
                 </div>
               </div>
             ))}

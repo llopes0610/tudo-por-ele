@@ -1,84 +1,96 @@
 "use client";
 
+import { notFound } from "next/navigation";
 import { motion } from "framer-motion";
-import studies from "@/data/estudos.json";
-import HeroSection from "@/components/HeroSection";
 import Link from "next/link";
+import estudos from "@/data/estudos.json";
 
 export default function EstudoPage({ params }) {
-  const estudo = studies.find((s) => s.slug === params.slug);
+  const estudo = estudos.find((e) => e.slug === params.slug);
 
-  if (!estudo) {
-    return (
-      <div className="text-center py-20">
-        <h2 className="text-2xl font-bold text-gray-700">
-          Estudo não encontrado.
-        </h2>
-        <Link
-          href="/estudos"
-          className="mt-6 inline-block bg-[#0f1724] text-white px-6 py-3 rounded-lg font-medium shadow hover:bg-[#1e293b] transition-all"
-        >
-          ← Voltar aos Estudos
-        </Link>
-      </div>
-    );
-  }
+  if (!estudo) return notFound();
 
   return (
     <main className="bg-[#f8fafc] min-h-screen">
       {/* === HERO === */}
-      <HeroSection
-        titulo={estudo.title}
-        subtitulo={estudo.category}
-        versiculo={estudo.date}
-      />
+      <section className="relative w-full h-[55vh] md:h-[50vh] flex items-center justify-center text-center overflow-hidden">
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: "url('/hero.jpg')" }}
+        ></div>
+        <div className="absolute inset-0 bg-[#0f1724]/60" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0f1724]/60 to-[#0f1724]/90" />
 
-      {/* === CONTEÚDO DO ESTUDO === */}
-      <section className="max-w-4xl mx-auto px-5 sm:px-8 py-16">
-        <motion.article
-          initial={{ opacity: 0, y: 20 }}
+        <motion.div
+          initial={{ opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="bg-[#fffdf5] rounded-2xl shadow-lg p-6 sm:p-10 leading-relaxed border border-[#f5e6b3]"
+          transition={{ duration: 1.1, ease: "easeOut" }}
+          className="relative z-10 px-6"
         >
-          {/* Conteúdo principal */}
-          <div
-            className="prose prose-lg max-w-none text-gray-800 prose-headings:text-[#0f1724] leading-8 tracking-wide space-y-6"
-            dangerouslySetInnerHTML={{ __html: estudo.content }}
-          />
-
-          {/* Linha divisória */}
-          <hr className="my-8 border-t border-[#e6dba3]" />
-
-          {/* Autor */}
-          <div className="text-center text-sm text-gray-700">
-            <p className="font-semibold">Autor: Lucas Silva Lopes</p>
-            <p className="mt-1 text-gray-600">
-              Estudante de <strong>Bacharelado em Estudos Bíblicos</strong> pela{" "}
-              <strong>FitRef</strong>, teólogo reformado comprometido com a
-              exaltação de Cristo e a fidelidade às Escrituras.
-            </p>
-          </div>
-
-          {/* Informações finais */}
-          <div className="border-t border-gray-300 mt-10 pt-6 text-sm text-gray-600 text-center">
-            <p className="font-medium text-[#0f1724]">{estudo.title}</p>
-            <p>
+          <div className="inline-block rounded-2xl bg-black/30 backdrop-blur-[2px] px-8 py-5 ring-1 ring-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+            <h1 className="text-3xl md:text-5xl font-serif font-bold !text-gray-200 tracking-wide drop-shadow-[0_3px_8px_rgba(255,215,0,0.35)]">
+              {estudo.title}
+            </h1>
+            <p className="mt-3 text-sm md:text-lg italic text-yellow-200 drop-shadow-[0_1px_4px_rgba(255,215,0,0.3)]">
               {estudo.category} — {estudo.date}
             </p>
           </div>
-
-          {/* Botão voltar responsivo */}
-          <div className="mt-10 text-center">
-            <Link
-              href="/estudos"
-              className="inline-flex items-center justify-center gap-2 bg-[#0f1724] text-white px-8 py-3 rounded-lg font-semibold text-sm sm:text-base shadow-lg hover:bg-[#1e293b] transition-all duration-300"
-            >
-              <span className="text-lg">←</span> Voltar aos Estudos
-            </Link>
-          </div>
-        </motion.article>
+        </motion.div>
       </section>
+
+      {/* === CONTEÚDO === */}
+      <motion.article
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        className="max-w-4xl mx-auto bg-[#fffdf5] rounded-2xl shadow-lg p-8 mt-16 mb-12 leading-relaxed border border-[#f5e6b3]"
+      >
+        {/* Corpo principal */}
+        <div
+          className="prose prose-lg max-w-none text-gray-800 prose-headings:text-[#0f1724] space-y-4"
+          dangerouslySetInnerHTML={{ __html: estudo.content }}
+        />
+
+        {/* Vídeo embutido */}
+        {estudo.video && (
+          <div className="mt-10 text-center">
+            <p className="font-serif italic mb-3 text-[#0f1724]">
+              🎥 Assista ao vídeo completo:
+            </p>
+            <iframe
+              className="w-full max-w-3xl aspect-video mx-auto rounded-xl shadow-lg"
+              src={estudo.video
+                .replace("watch?v=", "embed/")
+                .replace("&t=", "?start=")}
+              title={estudo.title}
+              allowFullScreen
+            />
+          </div>
+        )}
+
+        {/* Créditos e fontes */}
+        {estudo.creditos && (
+  <div className="mt-8 bg-[#fff8e1] text-[#4a3f2c] border border-[#e0c98d] rounded-xl p-5 max-w-3xl mx-auto shadow-inner">
+    <p className="font-serif text-sm leading-relaxed mb-2">
+      🪶 <strong>Créditos e fontes:</strong>
+    </p>
+    <div
+      className="prose prose-sm max-w-none text-[#4a3f2c]"
+      dangerouslySetInnerHTML={{ __html: estudo.creditos }}
+    />
+  </div>
+)}
+
+        {/* Botão de voltar */}
+        <div className="text-center mt-10">
+          <Link
+            href="/estudos"
+            className="inline-block bg-[#0f1724] text-white px-6 py-2 rounded-md hover:bg-[#1e293b] transition-all duration-300 text-sm"
+          >
+            ⬅️ Voltar aos Estudos
+          </Link>
+        </div>
+      </motion.article>
     </main>
   );
 }
