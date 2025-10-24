@@ -41,7 +41,7 @@ export default function EstudosPage() {
           className="relative z-10 px-6"
         >
           <div className="inline-block rounded-2xl bg-black/30 backdrop-blur-[2px] px-8 py-5 ring-1 ring-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
-            <h1 className="text-4xl md:text-6xl font-serif font-bold text-gray-100 tracking-wide drop-shadow-[0_3px_8px_rgba(255,215,0,0.35)]">
+            <h1 className="text-4xl md:text-6xl font-serif font-bold !text-gray-200 tracking-wide drop-shadow-[0_3px_8px_rgba(255,215,0,0.35)]">
               Estudos Bíblicos
             </h1>
             <p className="mt-3 text-lg italic text-yellow-200 drop-shadow-[0_1px_4px_rgba(255,215,0,0.3)]">
