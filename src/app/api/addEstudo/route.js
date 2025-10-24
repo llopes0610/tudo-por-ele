@@ -2,45 +2,42 @@ import { promises as fs } from "fs";
 import path from "path";
 
 export async function POST(req) {
-  const data = await req.json();
-  const dataDir = path.join(process.cwd(), "src", "data");
-  const filePath = path.join(dataDir, "estudos.json");
-
   try {
-    // Garante a pasta
-    await fs.mkdir(dataDir, { recursive: true });
+    const body = await req.json();
 
-    // Lê o arquivo se existir
-    let estudos = [];
+    const filePath = path.join(process.cwd(), "src", "data", "estudos.json");
+    let arr = [];
     try {
-      const file = await fs.readFile(filePath, "utf8");
-      estudos = JSON.parse(file);
+      const raw = await fs.readFile(filePath, "utf8");
+      arr = raw ? JSON.parse(raw) : [];
     } catch {
-      estudos = [];
+      arr = [];
     }
 
-    // Cria slug automático
-    const slug = data.title
-      .toLowerCase()
-      .replace(/[^\w\s]/g, "")
-      .replace(/\s+/g, "-");
+    // não duplicar slug
+    if (arr.some((e) => e.slug === body.slug)) {
+      return new Response(JSON.stringify({ error: "Slug já existente." }), {
+        status: 400,
+      });
+    }
 
-    // Novo estudo
-    const novoEstudo = {
-      id: Date.now(),
-      slug,
-      date: new Date().toISOString().split("T")[0],
-      ...data,
+    const novo = {
+      slug: body.slug,
+      title: body.title,
+      date: body.date ?? new Date().toISOString().split("T")[0],
+      excerpt: body.excerpt || "",
+      category: body.category || "",
+      content: body.content || "",
+      video: body.video || null,
     };
 
-    estudos.push(novoEstudo);
-
-    await fs.writeFile(filePath, JSON.stringify(estudos, null, 2), "utf8");
+    arr.unshift(novo);
+    await fs.writeFile(filePath, JSON.stringify(arr, null, 2), "utf8");
 
     return new Response(JSON.stringify({ success: true }), { status: 200 });
-  } catch (error) {
-    console.error("Erro ao salvar estudo:", error);
-    return new Response(JSON.stringify({ error: "Erro ao salvar estudo" }), {
+  } catch (e) {
+    console.error("addEstudo error:", e);
+    return new Response(JSON.stringify({ error: "Erro ao salvar o estudo." }), {
       status: 500,
     });
   }
