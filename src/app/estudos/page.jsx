@@ -53,22 +53,22 @@ export default function EstudosPage() {
 
       {/* === FILTROS E BUSCA === */}
       <section className="max-w-6xl mx-auto px-6 py-12 text-center">
-        <div className="mb-8">
+        <div className="mb-10">
           <input
             type="text"
             placeholder="Pesquisar estudos..."
             value={busca}
             onChange={(e) => setBusca(e.target.value)}
-            className="w-full md:w-1/2 px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400"
+            className="w-full md:w-2/3 px-5 py-3 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400 transition"
           />
         </div>
 
-        <div className="flex flex-wrap justify-center gap-3 mb-10">
+        <div className="flex flex-wrap justify-center gap-3 mb-12">
           {categorias.map((cat) => (
             <button
               key={cat}
               onClick={() => setCategoria(cat)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+              className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
                 categoria === cat
                   ? "bg-[#0f1724] text-yellow-400 shadow-md"
                   : "bg-gray-200 text-gray-700 hover:bg-gray-300"
@@ -82,7 +82,7 @@ export default function EstudosPage() {
         {/* === LISTA DE ESTUDOS === */}
         <motion.div
           layout
-          className="grid md:grid-cols-3 gap-8 mt-8"
+          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-8"
           transition={{ duration: 0.4 }}
         >
           <AnimatePresence>
@@ -98,7 +98,7 @@ export default function EstudosPage() {
                     delay: index * 0.1,
                     ease: "easeOut",
                   }}
-                  className="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 flex flex-col justify-between border border-gray-100"
+                  className="bg-white p-6 rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col justify-between border border-gray-200 hover:-translate-y-1"
                 >
                   <div>
                     <h3 className="text-xl font-semibold font-serif text-[#0f1724] mb-2">
@@ -113,7 +113,7 @@ export default function EstudosPage() {
                   </div>
                   <Link
                     href={`/estudos/${s.slug}`}
-                    className="inline-block mt-4 bg-[#0f1724] text-white px-4 py-2 rounded-md hover:bg-[#1e293b] transition-all duration-300 text-sm"
+                    className="inline-block mt-4 bg-[#0f1724] text-white px-4 py-2 rounded-md hover:bg-[#1e293b] transition-all duration-300 text-sm font-medium"
                   >
                     Ler Estudo
                   </Link>
