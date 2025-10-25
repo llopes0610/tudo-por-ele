@@ -6,7 +6,7 @@ export async function POST(req) {
     const data = await req.json();
     const filePath = path.join(process.cwd(), "src", "data", "produtos.json");
 
-    // Lê o arquivo atual (ou cria vazio se não existir)
+    // Lê o arquivo existente ou cria um novo
     let produtos = [];
     try {
       const fileContent = await fs.readFile(filePath, "utf8");
@@ -18,22 +18,17 @@ export async function POST(req) {
     // Adiciona o novo produto
     const novoProduto = {
       id: Date.now(),
-      nome: data.nome,
-      imagem: data.imagem,
-      link: data.link,
-      categoria: data.categoria,
-      descricao: data.descricao,
+      ...data,
     };
-
     produtos.push(novoProduto);
 
-    // Salva o arquivo JSON formatado
+    // Salva o arquivo atualizado
     await fs.writeFile(filePath, JSON.stringify(produtos, null, 2), "utf8");
 
-    return new Response(
-      JSON.stringify({ success: true, produto: novoProduto }),
-      { status: 200, headers: { "Content-Type": "application/json" } }
-    );
+    return new Response(JSON.stringify({ success: true }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
   } catch (error) {
     console.error("Erro ao salvar produto:", error);
     return new Response(
